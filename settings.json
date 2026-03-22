@@ -1,0 +1,34 @@
+{
+    // اللغة والاتجاه
+    "editor.fontFamily": "'Cascadia Code', 'Segoe UI', 'Arabic Typesetting', 'Traditional Arabic', Arial",
+    "editor.fontSize": 14,
+    "editor.wordWrap": "on",
+    
+    // دعم العربية
+    "editor.unicodeHighlight.ambiguousCharacters": false,
+    "editor.unicodeHighlight.invisibleCharacters": false,
+    
+    // Git
+    "git.autofetch": true,
+    "git.confirmSync": false,
+    
+    // تنسيق الكود
+    "editor.formatOnSave": true,
+    "editor.formatOnPaste": true,
+    "prettier.singleQuote": true,
+    
+    // HTML/JavaScript
+    "emmet.triggerExpansionOnTab": true,
+    "javascript.updateImportsOnFileMove.enabled": "always",
+    
+    // Live Server
+    "liveServer.settings.donotVerifyTags": true,
+    "liveServer.settings.CustomBrowser": "chrome",
+    
+    // المظهر
+    "workbench.iconTheme": "material-icon-theme",
+    "workbench.colorTheme": "Default Dark+",
+    
+    // RTL
+    "editor.renderControlCharacters": true
+}

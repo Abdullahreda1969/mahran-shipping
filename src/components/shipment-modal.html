@@ -1,0 +1,122 @@
+﻿<!-- src/components/shipment-modal.html -->
+<div id="shipmentModal" class="modal">
+    <div class="modal-content">
+        <!-- رأس النافذة -->
+        <div class="modal-header">
+            <h2>➕ إضافة شحنة جديدة</h2>
+            <button class="close-modal">&times;</button>
+        </div>
+        
+        <!-- جسم النافذة -->
+        <div class="modal-body">
+            <!-- عرض السعر -->
+            <div class="price-summary">
+                <div class="price-item">
+                    <span>السعر الأساسي:</span>
+                    <span id="basePrice">0 ريال</span>
+                </div>
+                <div class="price-item">
+                    <span>الرسوم الإضافية:</span>
+                    <span id="additionalFees">0 ريال</span>
+                </div>
+                <div class="price-total">
+                    <span>الإجمالي:</span>
+                    <span id="totalPrice">0 ريال</span>
+                </div>
+            </div>
+            
+            <!-- نموذج الإضافة -->
+            <form id="shipmentForm">
+                <!-- معلومات العميل -->
+                <div class="form-section">
+                    <h3>👤 معلومات العميل</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="customerName">الاسم الكامل *</label>
+                            <input type="text" id="customerName" placeholder="أحمد محمد" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="customerPhone">رقم الهاتف *</label>
+                            <input type="tel" id="customerPhone" placeholder="05XXXXXXXX" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="customerAddress">عنوان التسليم *</label>
+                        <textarea id="customerAddress" rows="2" placeholder="الحي، الشارع، المدينة" required></textarea>
+                    </div>
+                </div>
+                
+                <!-- معلومات الشحنة -->
+                <div class="form-section">
+                    <h3>📦 معلومات الشحنة</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="shipmentWeight">الوزن (كجم) *</label>
+                            <input type="number" id="shipmentWeight" min="0.1" step="0.1" value="1" required>
+                            <small>أدخل الوزن بالكيلوجرام</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="shipmentType">نوع الشحن *</label>
+                            <select id="shipmentType" required>
+                                <option value="عادي">عادي - 25 ريال/كجم</option>
+                                <option value="سريع">سريع - 40 ريال/كجم</option>
+                                <option value="بريد سريع">بريد سريع - 60 ريال/كجم</option>
+                                <option value="اقتصادي">اقتصادي - 15 ريال/كجم</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="shipmentDescription">وصف الشحنة</label>
+                        <textarea id="shipmentDescription" rows="2" placeholder="وصف مختصر للمحتويات"></textarea>
+                    </div>
+                </div>
+                
+                <!-- خدمات إضافية -->
+                <div class="form-section">
+                    <h3>✨ خدمات إضافية</h3>
+                    <div class="services-grid">
+                        <label class="service-checkbox">
+                            <input type="checkbox" name="additionalServices" value="تأمين">
+                            <span>🛡️ تأمين (+10 ريال)</span>
+                        </label>
+                        <label class="service-checkbox">
+                            <input type="checkbox" name="additionalServices" value="تغليف">
+                            <span>📦 تغليف (+5 ريال)</span>
+                        </label>
+                        <label class="service-checkbox">
+                            <input type="checkbox" name="additionalServices" value="توصيل منباب">
+                            <span>🚪 توصيل من الباب (+15 ريال)</span>
+                        </label>
+                    </div>
+                </div>
+                
+                <!-- حالة الدفع -->
+                <div class="form-section">
+                    <h3>💳 حالة الدفع</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="paymentStatus">حالة الدفع</label>
+                            <select id="paymentStatus">
+                                <option value="غير مدفوع">غير مدفوع</option>
+                                <option value="مدفوع جزئياً">مدفوع جزئياً</option>
+                                <option value="مدفوع بالكامل">مدفوع بالكامل</option>
+                            </select>
+                        </div>
+                        <div class="form-group" id="paidAmountGroup" style="display: none;">
+                            <label for="paidAmount">المبلغ المدفوع (ريال)</label>
+                            <input type="number" id="paidAmount" min="0" step="1">
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        
+        <!-- تذييل النافذة -->
+        <div class="modal-footer">
+            <button type="button" class="btn-secondary close-modal">إلغاء</button>
+            <button type="submit" form="shipmentForm" class="btn-primary">حفظ الشحنة</button>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,260 @@
+﻿<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>al-mahran-mvp | نظام إدارة الشحنات</title>
+    
+    <!-- أنماط CSS -->
+    <link rel="stylesheet" href="src/css/modal.css">
+    <style>
+        /* أنماط عامة مبسطة */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: #f5f7fa;
+            min-height: 100vh;
+            color: #333;
+        }
+        
+        .app-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        /* الهيدر */
+        .app-header {
+            background: linear-gradient(135deg, #1a237e, #283593);
+            color: white;
+            padding: 25px 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            box-shadow: 0 5px 20px rgba(26, 35, 126, 0.2);
+        }
+        
+        .header-left h1 {
+            font-size: 2em;
+            margin-bottom: 5px;
+        }
+        
+        .header-left p {
+            opacity: 0.9;
+            font-size: 1em;
+        }
+        
+        .mvp-badge {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            backdrop-filter: blur(10px);
+        }
+        
+        /* زر الإضافة الرئيسي */
+        .add-shipment-btn {
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.2em;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(76, 175, 80, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+        }
+        
+        .add-shipment-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(76, 175, 80, 0.4);
+            background: linear-gradient(135deg, #45a049, #3d8b40);
+        }
+        
+        /* قسم الشحنات */
+        .shipments-section {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            margin-top: 20px;
+            min-height: 500px;
+        }
+        
+        .section-title {
+            color: #1a237e;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f0f0f0;
+            font-size: 1.5em;
+        }
+        
+        /* تذييل الصفحة */
+        .app-footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            color: #666;
+            font-size: 0.9em;
+            border-top: 1px solid #eee;
+        }
+        
+        /* التجاوب */
+        @media (max-width: 768px) {
+            .app-header {
+                flex-direction: column;
+                text-align: center;
+                padding: 20px;
+            }
+            
+            .header-left, .header-right {
+                width: 100%;
+                text-align: center;
+            }
+            
+            .add-shipment-btn {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .shipments-section {
+                padding: 20px 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- الهيدر -->
+        <header class="app-header">
+            <div class="header-left">
+                <h1>🚚 al-mahran-mvp</h1>
+                <p>نظام إدارة الشحنات المبسط</p>
+                <div class="mvp-badge">MVP - النسخة التجريبية</div>
+            </div>
+            
+            <div class="header-right">
+                <button class="add-shipment-btn" id="openModalBtn">
+                    <span style="font-size: 1.3em;">➕</span>
+                    <span>إضافة شحنة جديدة</span>
+                </button>
+            </div>
+        </header>
+        
+        <!-- قسم الشحنات -->
+        <section class="shipments-section">
+            <h2 class="section-title">📋 الشحنات</h2>
+            <div id="shipmentsList">
+                <!-- هنا سيتم عرض قائمة الشحنات -->
+            </div>
+        </section>
+        
+        <!-- التذييل -->
+        <footer class="app-footer">
+            <p>© 2026 - al-mahran-mvp | نظام إدارة الشحنات المبسط</p>
+            <p>الإصدار 0.1.0 | جاري التطوير المستمر</p>
+        </footer>
+    </div>
+    
+    <!-- JavaScript -->
+    <script src="src/js/modal.js"></script>
+    <script src="src/js/shipments-list.js"></script>
+    <script>
+        // متغيرات النظام
+        let shipmentModal = null;
+        let shipmentsList = null;
+        
+        // تهيئة النظام عند تحميل الصفحة
+        document.addEventListener('DOMContentLoaded', function() {
+            // إنشاء قائمة الشحنات
+            shipmentsList = new ShipmentsList('shipmentsList');
+            window.shipmentsListInstance = shipmentsList;
+            
+            // إنشاء النافذة المنبثقة
+            shipmentModal = new ShipmentModal(function(newShipment) {
+                // عند إضافة شحنة جديدة
+                shipmentsList.addShipment(newShipment);
+                showSuccessMessage(`تم إضافة الشحنة بنجاح! رقم التتبع: ${newShipment.trackingNumber}`);
+            });
+            
+            // ربط النافذة بالقائمة
+            shipmentsList.setModal(shipmentModal);
+            
+            // ربط زر فتح النافذة
+            document.getElementById('openModalBtn').addEventListener('click', function() {
+                shipmentModal.open();
+            });
+            
+            // تحميل الشحنات الموجودة
+            shipmentsList.render();
+            
+            // إضافة أنماط الرسائل إذا لم تكن موجودة
+            if (!document.querySelector('#message-styles')) {
+                const style = document.createElement('style');
+                style.id = 'message-styles';
+                style.textContent = `
+                    @keyframes slideInRight {
+                        from { transform: translateX(100%); opacity: 0; }
+                        to { transform: translateX(0); opacity: 1; }
+                    }
+                    @keyframes slideOutRight {
+                        from { transform: translateX(0); opacity: 1; }
+                        to { transform: translateX(100%); opacity: 0; }
+                    }
+                `;
+                document.head.appendChild(style);
+            }
+            
+            console.log('✅ نظام al-mahran-mvp جاهز للعمل!');
+        });
+        
+        // دالة عرض رسائل النجاح
+        function showSuccessMessage(message) {
+            const alertDiv = document.createElement('div');
+            alertDiv.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: #4CAF50;
+                color: white;
+                padding: 15px 25px;
+                border-radius: 10px;
+                box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+                z-index: 1001;
+                animation: slideInRight 0.3s ease;
+            `;
+            
+            alertDiv.innerHTML = `
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <span style="font-size: 1.5em;">✅</span>
+                    <span>${message}</span>
+                </div>
+            `;
+            
+            document.body.appendChild(alertDiv);
+            
+            setTimeout(() => {
+                alertDiv.style.animation = 'slideOutRight 0.3s ease';
+                setTimeout(() => {
+                    if (alertDiv.parentNode) {
+                        alertDiv.parentNode.removeChild(alertDiv);
+                    }
+                }, 300);
+            }, 3000);
+        }
+    </script>
+    <script src="src/js/demo-tracker.js"></script></body>
+</html>
